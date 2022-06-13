@@ -18,12 +18,10 @@ nltk.data.path.append('/work/words')
 word_list = words.words()
 five_letter_words = [word for word in word_list if len(word) == 5]
 
-
-print_menu()
 play_again = ""
 
 while play_again != "q":
-    
+    print_menu()
     word = random.choice(five_letter_words).upper()
 
     for attempt in range(1, 7):
@@ -31,6 +29,13 @@ while play_again != "q":
 
         sys.stdout.write('\x1b[1A')
         sys.stdout.write('\x1b[2K')
+
+        if guess == word:
+            print(colored(f'\nCongrats! You got the wordle in {attempt} attempts', 'green'))
+        elif attempt == 6:
+            print(guess)
+            print(colored(f'Sorry, the wordle was {word}', 'red'))
+            break
 
         for i in range(min(len(guess), 5)):
             if guess[i] == word[i]:
@@ -41,10 +46,5 @@ while play_again != "q":
                 print(colored(guess[i], 'red'), end = "")
         print()
 
-        if guess == word:
-            print(colored(f'\nCongrats! You got the wordle in {attempt} attempts', 'green'))
-            break
-        elif attempt == 6:
-            print(colored(f'Sorry, the wordle was {word}', 'red'))
 
-    play_again = input("Wanna play again?\nYES: ENTER \nNO: Q")
+    play_again = input("\nWanna play again?\nYES: ENTER \nNO: Q")
